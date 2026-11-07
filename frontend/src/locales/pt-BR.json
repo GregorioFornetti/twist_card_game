@@ -1,0 +1,48 @@
+{
+  "APP": { "TITLE": "Twist", "SUBTITLE": "Um jogo de cartas de cores e números", "CONNECTING": "Conectando…", "CONNECTION_ERROR": "Não foi possível conectar ao servidor. Tente novamente mais tarde.", "LANGUAGE": "Idioma" },
+  "HOME": {
+    "CREATE_GAME": "Criar jogo", "JOIN_GAME": "Entrar em um jogo", "HOW_TO_PLAY": "Como jogar",
+    "CREATE_ROOM": "Criar sala", "JOIN_ROOM": "Entrar na sala", "PLAYER_NAME": "Seu nome", "ROOM_CODE": "Código da sala",
+    "CREATE": "Criar", "JOIN": "Entrar", "CLOSE": "Fechar", "BACK": "Voltar", "INVITED": "Você foi convidado para uma sala — digite seu nome para entrar.",
+    "ERRORS": { "LOBBY_IN_GAME": "Essa sala já está em um jogo.", "INEXISTENT_LOBBY": "Sala não encontrada. Confira o código.", "NO_NAME": "Digite um nome.", "REPEATED_NAME": "Esse nome já está sendo usado na sala.", "PLAYER_ALREADY_IN_LOBBY": "Você já está em uma sala.", "LOBBY_FULL": "Essa sala está cheia.", "INTERNAL": "Algo deu errado. Tente novamente." }
+  },
+  "HOWTO": {
+    "TITLE": "Como jogar",
+    "BODY": "Combine a carta do topo por cor, número ou símbolo — ou jogue um Curinga. Pular, Inverter e Comprar Duas mudam o turno; o Curinga Comprar Quatro pode ser desafiado se você achar que o jogador tinha uma carta da cor atual. Não tem carta jogável? Compre uma: jogue se puder, senão passe. Esvazie sua mão para pontuar as cartas que sobraram com os outros (ações valem 20, Curingas 50). Quem atingir a pontuação alvo primeiro vence."
+  },
+  "LOBBY": {
+    "TITLE": "Sala", "CODE": "Código", "COPY": "Copiar código", "COPIED": "Copiado!", "LEADER": "Líder", "YOU": "Você", "BOT": "Bot",
+    "READY": "Pronto", "UNREADY": "Não pronto", "WAITING": "Aguardando jogadores…", "ADD_BOT": "Adicionar bot", "REMOVE": "Remover",
+    "INVITE_LINK": "Link de convite", "COPY_LINK": "Copiar link", "SHARE_HINT": "Envie o link para seus amigos, ou compartilhe o código.", "OPTIONS": "Opções", "SPECTATOR": "Assistindo",
+    "START": "Iniciar jogo", "TARGET": "Jogar até", "POINTS": "pontos", "LEAVE": "Sair da sala",
+    "TURN_TIME": "Tempo por turno", "NO_LIMIT": "Sem limite", "SECONDS": "segundos",
+    "DECK": "Baralho", "DECK_SIZE": "{n} cartas", "ADD_COLOR": "Adicionar cor", "REMOVE_COLOR": "Remover",
+    "COLOR_NAME": "Nome da cor", "NUMBERS_HINT": "Defina quantas cópias de cada carta há no baralho (1-99).", "CARD_COUNT": "Quantas", "ADD_CARD": "Adicionar", "REMOVE_CARD": "Remover carta",
+    "SPECIALS": "Cartas especiais", "WILD_CARDS": "Cartas Curinga", "SKIP": "Pular", "REVERSE": "Inverter", "DRAW2": "Comprar Duas", "WILD": "Curinga", "WILD4": "Curinga Comprar Quatro",
+    "DRAW1": "Comprar Uma", "SKIPALL": "Pular Todos", "REVERSEDRAW": "Inverter e Comprar", "WILD2": "Curinga Comprar Duas", "SWAPCARD": "Trocar Carta", "PEEK": "Espiar", "GIFT": "Presentear", "SHIELD": "Escudo", "DISCARDCOLOR": "Descartar Cor", "LOCK": "Travar Cor", "COPYCAT": "Imitador", "BOMB": "Bomba", "SHUFFLE": "Embaralhar Mãos",
+    "DECK_TOO_SMALL_HINT": "O baralho é pequeno demais para tantos jogadores — adicione mais cartas.", "RANDOM_DECK": "Baralho aleatório",
+    "RESET_DEFAULTS": "Restaurar padrões", "RESET_WARNING": "Restaurar pontuação alvo, tempo por turno, regras da casa e todo o baralho para os padrões? Suas configurações personalizadas serão perdidas.", "RESET_CONFIRM": "Restaurar",
+    "HOUSE_RULES": "Regras da casa", "STACK_PENALTY": "Empilhar Comprar Duas / Curinga Comprar Quatro", "DRAW_UNTIL": "Comprar até achar uma carta jogável", "SWAP_SEVEN": "Jogar um 7 pode trocar as mãos",
+    "NO_HOUSE_RULES": "Nenhuma regra da casa ativada.",
+    "ERRORS": { "NOT_LEADER": "Somente o líder pode fazer isso.", "NOT_ALL_READY": "Todos precisam estar prontos primeiro.", "NOT_ENOUGH": "Adicione pelo menos mais um jogador ou bot.", "ALREADY": "O jogo já começou.", "DECK_TOO_SMALL": "O baralho é pequeno demais para tantos jogadores. Adicione mais cartas." }
+  },
+  "GAME": {
+    "HAND": "Mão {n}", "YOUR_TURN": "Sua vez", "WAITING_FOR": "Aguardando {name}…", "DRAW_PILE": "Comprar", "DISCARD": "Descarte",
+    "CURRENT_COLOR": "Cor atual", "DIRECTION": "Direção", "DRAW_CARD": "Comprar uma carta", "PASS": "Passar",
+    "ONE_CARD": "1 carta", "CHOOSE_COLOR": "Escolha uma cor", "ACCEPT_DRAW4": "Aceitar (+4)", "CHALLENGE": "Desafiar!",
+    "CHALLENGE_PROMPT": "{name} jogou um Curinga Comprar Quatro em você.", "SCORES": "Pontos", "LOG": "Registro do jogo", "CARDS": "cartas",
+    "TURN_TIMER": "Tempo restante", "TIME_RUNNING_OUT": "Rápido — o tempo está acabando!", "EVENTS": "eventos", "LOG_EMPTY": "Nenhum evento ainda.",
+    "HAND_OVER": "{name} venceu a mão (+{points}). Próxima mão em breve…", "PLAYABLE_ONLY": "Somente a carta que você comprou pode ser jogada.",
+    "SPECTATING": "Você está assistindo a este jogo", "WAITING_NEXT_HAND": "Você entra a partir da próxima mão.", "EXIT": "Sair do jogo", "EXIT_TITLE": "Sair do jogo?",
+    "PENALTY_YOURS": "Uma penalidade de +{amount} está vindo para você. Jogue um Comprar Duas ou Curinga Comprar Quatro da sua mão para empilhar, ou aceite.",
+    "PENALTY_WAITING": "{name} enfrenta uma penalidade de +{amount}…", "ACCEPT_PENALTY": "Aceitar (+{amount})",
+    "SWAP_YOURS": "Você jogou um 7. Trocar de mão com…", "SWAP_WAITING": "{name} está decidindo uma troca de mãos…", "KEEP_HAND": "Manter minha mão",
+    "SWAPCARD_TARGET": "Trocar uma carta com…", "SWAPCARD_CARD": "Agora clique em uma carta da sua mão para entregar.", "GIFT_TARGET": "Presentear uma carta para…", "GIFT_CARD": "Agora clique em uma carta da sua mão para entregar.",
+    "PEEK_TARGET": "Espiar a mão de quem?", "CANCEL_CHOICE": "Cancelar", "WAITING_CHOICE": "{name} está fazendo uma escolha…", "SHIELD_HINT": "Você pode jogar um Escudo da sua mão para bloquear isto.",
+    "LOCKED": "Cor travada: sem Curingas até a vez voltar para {name}.", "REVEALED": "Mão espiada",
+    "EXIT_WARNING": "Isso não pode ser desfeito. Você sairá deste jogo de vez, suas cartas serão removidas e você não poderá voltar para esta mão.", "EXIT_CONFIRM": "Sair do jogo", "CANCEL": "Cancelar",
+    "SOUND": "Som",
+    "ERRORS": { "not-your-turn": "Não é a sua vez.", "card-not-playable": "Essa carta não combina.", "color-required": "Escolha uma cor para o Curinga.", "must-play-drawn-card": "Jogue a carta comprada ou passe.", "color-locked": "A cor está travada — Curingas não podem ser jogados." }
+  },
+  "END": { "TITLE": "Fim de jogo", "WINNER": "{name} venceu!", "RANKING": "Classificação final", "REMATCH": "Voltar à sala", "REMATCH_GAME": "Revanche", "HOME": "Sair" }
+}

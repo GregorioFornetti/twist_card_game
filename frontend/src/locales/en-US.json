@@ -1,0 +1,48 @@
+{
+  "APP": { "TITLE": "Twist", "SUBTITLE": "A colour-and-number card game", "CONNECTING": "Connecting…", "CONNECTION_ERROR": "Could not connect to the server. Try again later.", "LANGUAGE": "Language" },
+  "HOME": {
+    "CREATE_GAME": "Create game", "JOIN_GAME": "Join game", "HOW_TO_PLAY": "How to play",
+    "CREATE_ROOM": "Create room", "JOIN_ROOM": "Join room", "PLAYER_NAME": "Your name", "ROOM_CODE": "Room code",
+    "CREATE": "Create", "JOIN": "Join", "CLOSE": "Close", "BACK": "Back", "INVITED": "You were invited to a room — enter your name to join.",
+    "ERRORS": { "LOBBY_IN_GAME": "That room is already in a game.", "INEXISTENT_LOBBY": "Room not found. Check the code.", "NO_NAME": "Enter a name.", "REPEATED_NAME": "That name is already used in the room.", "PLAYER_ALREADY_IN_LOBBY": "You are already in a room.", "LOBBY_FULL": "That room is full.", "INTERNAL": "Something went wrong. Try again." }
+  },
+  "HOWTO": {
+    "TITLE": "How to play",
+    "BODY": "Match the top card by colour, number or symbol — or play a Wild. Skip, Reverse and Draw Two change the turn; Wild Draw Four can be challenged if you think the player held a matching colour. No playable card? Draw one: play it if you can, otherwise pass. Empty your hand to score the cards left with everyone else (actions 20, Wilds 50). First to the target score wins."
+  },
+  "LOBBY": {
+    "TITLE": "Room", "CODE": "Code", "COPY": "Copy code", "COPIED": "Copied!", "LEADER": "Leader", "YOU": "You", "BOT": "Bot",
+    "READY": "Ready", "UNREADY": "Not ready", "WAITING": "Waiting for players…", "ADD_BOT": "Add bot", "REMOVE": "Remove",
+    "INVITE_LINK": "Invite link", "COPY_LINK": "Copy link", "SHARE_HINT": "Send the link to your friends, or share the code.", "OPTIONS": "Options", "SPECTATOR": "Watching",
+    "START": "Start game", "TARGET": "Play to", "POINTS": "points", "LEAVE": "Leave room",
+    "TURN_TIME": "Time per turn", "NO_LIMIT": "No limit", "SECONDS": "seconds",
+    "DECK": "Deck", "DECK_SIZE": "{n} cards", "ADD_COLOR": "Add colour", "REMOVE_COLOR": "Remove",
+    "COLOR_NAME": "Colour name", "NUMBERS_HINT": "Set how many copies of each card are in the deck (1-99).", "CARD_COUNT": "How many", "ADD_CARD": "Add", "REMOVE_CARD": "Remove card",
+    "SPECIALS": "Special cards", "WILD_CARDS": "Wild cards", "SKIP": "Skip", "REVERSE": "Reverse", "DRAW2": "Draw Two", "WILD": "Wild", "WILD4": "Wild Draw Four",
+    "DRAW1": "Draw One", "SKIPALL": "Skip All", "REVERSEDRAW": "Reverse Draw", "WILD2": "Wild Draw Two", "SWAPCARD": "Swap Card", "PEEK": "Peek", "GIFT": "Gift", "SHIELD": "Shield", "DISCARDCOLOR": "Discard Colour", "LOCK": "Colour Lock", "COPYCAT": "Copycat", "BOMB": "Bomb", "SHUFFLE": "Shuffle Hands",
+    "DECK_TOO_SMALL_HINT": "Deck is too small for this many players — add more cards.", "RANDOM_DECK": "Random deck",
+    "RESET_DEFAULTS": "Reset to defaults", "RESET_WARNING": "Reset target score, turn time, house rules and the whole deck to the defaults? Your custom settings will be lost.", "RESET_CONFIRM": "Reset",
+    "HOUSE_RULES": "House rules", "STACK_PENALTY": "Stack Draw Two / Wild Draw Four", "DRAW_UNTIL": "Draw until you find a playable card", "SWAP_SEVEN": "Playing a 7 can swap hands",
+    "NO_HOUSE_RULES": "No house rules enabled.",
+    "ERRORS": { "NOT_LEADER": "Only the leader can do that.", "NOT_ALL_READY": "Everyone must be ready first.", "NOT_ENOUGH": "Add at least one more player or bot.", "ALREADY": "Game already started.", "DECK_TOO_SMALL": "The deck is too small for this many players. Add more cards." }
+  },
+  "GAME": {
+    "HAND": "Hand {n}", "YOUR_TURN": "Your turn", "WAITING_FOR": "Waiting for {name}…", "DRAW_PILE": "Draw", "DISCARD": "Discard",
+    "CURRENT_COLOR": "Current colour", "DIRECTION": "Direction", "DRAW_CARD": "Draw a card", "PASS": "Pass",
+    "ONE_CARD": "1 card", "CHOOSE_COLOR": "Choose a colour", "ACCEPT_DRAW4": "Accept (+4)", "CHALLENGE": "Challenge!",
+    "CHALLENGE_PROMPT": "{name} played a Wild Draw Four on you.", "SCORES": "Scores", "LOG": "Game log", "CARDS": "cards",
+    "TURN_TIMER": "Time left", "TIME_RUNNING_OUT": "Hurry — time is running out!", "EVENTS": "events", "LOG_EMPTY": "No events yet.",
+    "HAND_OVER": "{name} won the hand (+{points}). Next hand soon…", "PLAYABLE_ONLY": "Only the card you drew can be played.",
+    "SPECTATING": "You are watching this game", "WAITING_NEXT_HAND": "You will join from the next hand.", "EXIT": "Exit game", "EXIT_TITLE": "Exit the game?",
+    "PENALTY_YOURS": "A +{amount} penalty is coming at you. Play a Draw Two or Wild Draw Four from your hand to stack it on, or accept it.",
+    "PENALTY_WAITING": "{name} faces a +{amount} penalty…", "ACCEPT_PENALTY": "Accept (+{amount})",
+    "SWAP_YOURS": "You played a 7. Swap hands with…", "SWAP_WAITING": "{name} is deciding a hand swap…", "KEEP_HAND": "Keep my hand",
+    "SWAPCARD_TARGET": "Swap a card with…", "SWAPCARD_CARD": "Now click a card in your hand to give away.", "GIFT_TARGET": "Give a card to…", "GIFT_CARD": "Now click a card in your hand to give away.",
+    "PEEK_TARGET": "Peek at whose hand?", "CANCEL_CHOICE": "Cancel", "WAITING_CHOICE": "{name} is making a choice…", "SHIELD_HINT": "You can play a Shield from your hand to block this.",
+    "LOCKED": "Colour locked: no Wilds until play returns to {name}.", "REVEALED": "Peeked hand",
+    "EXIT_WARNING": "This cannot be undone. You will leave this game for good, your cards will be removed, and you cannot rejoin this hand.", "EXIT_CONFIRM": "Exit game", "CANCEL": "Cancel",
+    "SOUND": "Sound",
+    "ERRORS": { "not-your-turn": "It is not your turn.", "card-not-playable": "That card does not match.", "color-required": "Choose a colour for the Wild.", "must-play-drawn-card": "Play the drawn card or pass.", "color-locked": "The colour is locked — Wilds cannot be played." }
+  },
+  "END": { "TITLE": "Game over", "WINNER": "{name} wins!", "RANKING": "Final ranking", "REMATCH": "Back to room", "REMATCH_GAME": "Rematch", "HOME": "Leave" }
+}
