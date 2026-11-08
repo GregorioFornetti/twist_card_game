@@ -21,6 +21,18 @@ function stamp() { return new Date().toLocaleTimeString('en-GB', { hour12: false
 function log(game: Game, msg: string) { game.log = [`[${stamp()}] ${msg}`, ...game.log].slice(0, 100); }
 
 const colorName = (id: string, colors?: { id: string; name: string }[]) => colors?.find(c => c.id === id)?.name ?? cap(id);
+let gabsCardSeq = 0;
+/** Broadcast a one-shot audio cue (easter egg) to every client. */
+export function cueSound(game: Game, name: 'gabs' | 'salvei') {
+  game.cueSeq = (game.cueSeq ?? 0) + 1;
+  game.soundCue = { name, seq: game.cueSeq };
+}
+/** "Salvei!": a +2 was just played and the next player holds exactly one card — a +2. */
+function cueSalveiIfSaved(lobby: Lobby, game: Game, fromId: string) {
+  const nextId = nextPlayerId(orderOf(lobby), fromId, game.direction);
+  const hand = game.playersState[nextId]?.hand ?? [];
+  if (hand.length === 1 && hand[0].kind === 'draw2') cueSound(game, 'salvei');
+}
 /** Human-readable card name for the log, e.g. "Red 5", "Blue Skip", "Wild Draw Four (chose Green)". */
 export function describeCard(card: Card, chosenColor?: CardColor, colors?: { id: string; name: string }[]): string {
   if (WILD_KINDS.includes(card.kind)) { const label = card.kind === 'wild4' ? 'Wild Draw Four' : card.kind === 'wild2' ? 'Wild Draw Two' : cardLabel(card); return chosenColor ? `${label} (chose ${colorName(chosenColor, colors)})` : label; }
@@ -58,7 +70,7 @@ export function startGame(lobby: Lobby): Game {
   const game: Game = {
     playersState, playerOrder: lobby.players.map(p => p.id), drawPile: [], discardPile: [], currentColor: 'red',
     currentPlayerId: lobby.players[0].id, direction: 1, dealerId: lobby.players[0].id,
-    handNumber: 0, status: 'playing', lastAction: 'Game started', log: [], peekedBy: {}
+    handNumber: 0, status: 'playing', lastAction: 'Game started', log: [], peekedBy: {}, cueSeq: 0
   };
   lobby.game = game;
   startHand(lobby);
@@ -91,7 +103,7 @@ export function startHand(lobby: Lobby) {
   let starter = deck.pop()!;
   while (starter.kind === 'wild4') { deck = shuffle([...deck, starter]); starter = deck.pop()!; }
   // Wild starter: first player chooses the colour by playing — reflip to keep one clear state machine.
-  while (starter.kind === 'wild') { deck = shuffle([...deck, starter]); starter = deck.pop()!; }
+  while (starter.kind === 'wild' || starter.kind === 'gabs') { deck = shuffle([...deck, starter]); starter = deck.pop()!; }
   game.drawPile = deck;
   game.discardPile = [starter];
   game.currentColor = starter.color as CardColor;
@@ -162,7 +174,7 @@ export function playCard(lobby: Lobby, playerId: string, cardId: string, chosenC
   if (idx < 0) return { ok: false, error: 'card-not-in-hand' };
   if (st.drawnCardId && st.drawnCardId !== cardId) return { ok: false, error: 'must-play-drawn-card' };
   const card = st.hand[idx];
-  if (WILD_KINDS.includes(card.kind) && (!chosenColor || !lobby.options.deck.colors.some(c => c.id === chosenColor))) return { ok: false, error: 'color-required' };
+  if (card.kind !== 'gabs' && WILD_KINDS.includes(card.kind) && (!chosenColor || !lobby.options.deck.colors.some(c => c.id === chosenColor))) return { ok: false, error: 'color-required' };
   if (game.lockedColor && game.lockedBy !== playerId && WILD_KINDS.includes(card.kind)) return { ok: false, error: 'color-locked' };
   if (!isPlayable(card, topCard(game), game.currentColor)) return { ok: false, error: 'card-not-playable' };
   if (game.lockedBy === playerId) { game.lockedColor = undefined; game.lockedBy = undefined; log(game, 'Colour lock expired.'); }
@@ -173,9 +185,11 @@ export function playCard(lobby: Lobby, playerId: string, cardId: string, chosenC
   st.hand.splice(idx, 1);
   st.drawnCardId = undefined;
   game.discardPile.push(card);
-  game.currentColor = WILD_KINDS.includes(card.kind) ? chosenColor! : (card.color as CardColor);
+  game.currentColor = card.kind === 'gabs' ? 'green' : WILD_KINDS.includes(card.kind) ? chosenColor! : (card.color as CardColor);
   game.lastAction = `${nameOf(lobby, playerId)} played ${describeCard(card, chosenColor, lobby.options.deck.colors)}`;
   log(game, `${nameOf(lobby, playerId)} played ${describeCard(card, chosenColor, lobby.options.deck.colors)} (${st.hand.length} card${st.hand.length === 1 ? '' : 's'} left).`);
+  if (card.kind === 'gabs') cueSound(game, 'gabs');
+  if (effectiveKind === 'draw2' && lobby.options.stackPenalty) cueSalveiIfSaved(lobby, game, playerId);
 
   if (st.hand.length === 1) log(game, `${nameOf(lobby, playerId)} is down to one card.`);
   if (endHandIfWon(lobby, playerId)) return { ok: true };
@@ -232,6 +246,18 @@ export function playCard(lobby: Lobby, playerId: string, cardId: string, chosenC
         game.currentPlayerId = victim;
         log(game, `${nameOf(lobby, victim)} may accept the Wild Draw Four or challenge it.`);
       }
+      break;
+    }
+    case 'gabs': {
+      const victim = victimOf();
+      const vst = game.playersState[victim];
+      const discarded = vst.hand.length;
+      for (const c of vst.hand) game.discardPile.push(c);
+      vst.hand = [{ id: `gabs-skip-${++gabsCardSeq}`, color: 'green', kind: 'skip' }];
+      vst.drawnCardId = undefined;
+      game.currentColor = 'green';
+      game.currentPlayerId = victim;
+      log(game, `Gabs! ${nameOf(lobby, victim)} discards ${discarded} card${discarded === 1 ? '' : 's'} and is left with a single Green Skip — não pode ser verde!`);
       break;
     }
     case 'bomb': {
@@ -473,6 +499,7 @@ export function stackPenaltyCard(lobby: Lobby, playerId: string, cardId: string,
   game.discardPile.push(card);
   if (card.kind === 'wild4') game.currentColor = chosenColor!;
   else game.currentColor = card.color as CardColor;
+  if (card.kind === 'draw2') cueSalveiIfSaved(lobby, game, playerId);
   const add = card.kind === 'wild4' ? 4 : 2;
   game.pendingPenalty.amount += add;
   game.lastAction = `${nameOf(lobby, playerId)} stacked ${describeCard(card, chosenColor, lobby.options.deck.colors)} (+${game.pendingPenalty.amount})`;
@@ -599,7 +626,7 @@ export function removePlayerFromGame(lobby: Lobby, playerId: string): boolean {
 }
 
 export function buildClientLobby(lobby: Lobby, viewerId: string): ClientLobby {
-  const base: ClientLobby = { lobbyId: lobby.lobbyId, code: lobby.code, players: lobby.players, options: lobby.options, gameRanking: lobby.gameRanking };
+  const base: ClientLobby = { lobbyId: lobby.lobbyId, code: lobby.code, players: lobby.players, options: lobby.options, gameRanking: lobby.gameRanking, guris: lobby.guris };
   const game = lobby.game;
   if (!game) return base;
   const players: ClientLobby['game'] extends infer G ? { [k: string]: { numCards: number; score: number } } : never = {};
@@ -619,6 +646,7 @@ export function buildClientLobby(lobby: Lobby, viewerId: string): ClientLobby {
     pendingPeek: game.pendingPeek ? { ...game.pendingPeek } : undefined,
     revealedHands: Object.fromEntries((game.peekedBy[viewerId] ?? []).filter(id => game.playersState[id]).map(id => [id, [...game.playersState[id].hand]])),
     lockedColor: game.lockedColor, lockedBy: game.lockedBy,
+    soundCue: game.soundCue ? { ...game.soundCue } : undefined,
     lastAction: game.lastAction, handWinnerId: game.handWinnerId, handPoints: game.handPoints,
     winnerId: game.winnerId, log: game.log, targetScore: lobby.options.targetScore,
     turnEndsAt: game.turnEndsAt, turnTimeLimitMs: turnTimeMsFor(lobby),

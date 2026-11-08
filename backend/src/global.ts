@@ -14,3 +14,9 @@ export const APPEARANCE_COLORS = ['#e63946', '#f4a261', '#2a9d8f', '#4361ee', '#
 /** Selectable turn times in seconds; 0 means no turn timer. */
 export const TURN_TIME_SECONDS_OPTIONS = [0, 10, 15, 20, 30, 45, 60];
 export const DEFAULT_GAME_OPTIONS: GameOptions = { targetScore: 500, handSize: 7, turnTimeSeconds: 30, deck: defaultDeckConfig(), stackPenalty: false, drawUntilPlayable: false, swapOnSeven: false };
+/** Fresh default options; guris games (/guris) carry exactly one Gabs card. */
+export function defaultGameOptions(guris = false): GameOptions {
+  const deck = defaultDeckConfig();
+  if (guris) deck.gabsCount = 1;
+  return { ...DEFAULT_GAME_OPTIONS, deck };
+}

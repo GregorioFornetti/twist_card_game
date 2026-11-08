@@ -1,7 +1,7 @@
 import EventsEmitterBase from '../EventsEmitterBase';
 import type { GameOptions } from '@/interfaces/Lobby';
 export default class LobbyEventsEmitter extends EventsEmitterBase {
-  emitCreateLobby(name: string) { this.socket.emit('create-lobby', name); }
+  emitCreateLobby(name: string, guris = false) { this.socket.emit('create-lobby', name, guris); }
   emitJoinLoby(code: string, name: string) { this.socket.emit('join-lobby', code, name); }
   emitReady() { this.socket.emit('ready'); }
   emitUnready() { this.socket.emit('unready'); }

@@ -1,6 +1,6 @@
 export type CardColor = string;
 export type CardKind = 'number' | 'skip' | 'reverse' | 'draw2' | 'wild' | 'wild4'
-  | 'draw1' | 'skipall' | 'reversedraw' | 'wild2' | 'swapcard' | 'peek' | 'gift' | 'shield' | 'discardcolor' | 'copycat' | 'bomb' | 'shuffle' | 'lock';
+  | 'draw1' | 'skipall' | 'reversedraw' | 'wild2' | 'swapcard' | 'peek' | 'gift' | 'shield' | 'discardcolor' | 'copycat' | 'bomb' | 'shuffle' | 'lock' | 'gabs';
 export interface Card { id: string; color: CardColor | 'wild'; kind: CardKind; value?: number }
 export interface LobbyPlayer { id: string; name: string; leader: boolean; bot?: boolean; ready?: boolean; spectator?: boolean; emote?: string; color?: string }
 export interface DeckNumber { value: number; copies: number }
@@ -13,6 +13,7 @@ export interface DeckConfig {
   colors: DeckColor[];
   wildCount: number; wild4Count: number;
   wild2Count: number; copycatCount: number; bombCount: number; shuffleCount: number;
+  gabsCount: number;
 }
 export interface GameOptions { targetScore: number; handSize: number; turnTimeSeconds: number; deck: DeckConfig; stackPenalty: boolean; drawUntilPlayable: boolean; swapOnSeven: boolean }
 export interface ClientGame {
@@ -30,10 +31,11 @@ export interface ClientGame {
   revealedHands: { [playerId: string]: Card[] };
   lockedColor?: CardColor;
   lockedBy?: string;
+  soundCue?: { name: 'gabs' | 'salvei'; seq: number };
   lastAction: string; handWinnerId?: string; handPoints?: number; winnerId?: string; log: string[]; targetScore: number;
   turnEndsAt?: number; turnTimeLimitMs: number; turnTimeSeconds: number; colors: DeckColor[];
 }
 export interface Lobby {
   lobbyId: string; code: string; players: LobbyPlayer[]; options: GameOptions;
-  game?: ClientGame; gameRanking?: string[];
+  game?: ClientGame; gameRanking?: string[]; guris?: boolean;
 }

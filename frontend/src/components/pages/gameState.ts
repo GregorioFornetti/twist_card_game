@@ -1,5 +1,5 @@
 import type { Card, CardColor } from '@/interfaces/Lobby';
-export const WILD_KINDS: Card['kind'][] = ['wild', 'wild4', 'wild2', 'copycat', 'bomb', 'shuffle'];
+export const WILD_KINDS: Card['kind'][] = ['wild', 'wild4', 'wild2', 'copycat', 'bomb', 'shuffle', 'gabs'];
 export function isPlayable(card: Card, top?: Card, currentColor?: CardColor): boolean {
   if (!top || !currentColor) return false;
   if (WILD_KINDS.includes(card.kind)) return true;

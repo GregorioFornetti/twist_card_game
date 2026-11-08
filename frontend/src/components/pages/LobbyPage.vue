@@ -60,8 +60,8 @@ const randomDeck = () => {
       draw1: rnd(2), skipall: rnd(1), reversedraw: rnd(1), swapcard: rnd(1), peek: rnd(1), gift: rnd(1), shield: rnd(2), discardcolor: rnd(1), lock: rnd(1)
     }));
     if (colors.some(c => c.numbers.length < 4)) continue;
-    const deckCfg = { colors, wildCount: rnd(8), wild4Count: rnd(8), wild2Count: rnd(4), copycatCount: rnd(3), bombCount: rnd(2), shuffleCount: rnd(2) };
-    const size = colors.reduce((s, c) => s + c.numbers.reduce((a, n) => a + n.copies, 0) + COLORED_SPECIALS.reduce((a, k) => a + c[k.key], 0), 0) + deckCfg.wildCount + deckCfg.wild4Count + deckCfg.wild2Count + deckCfg.copycatCount + deckCfg.bombCount + deckCfg.shuffleCount;
+    const deckCfg = { colors, wildCount: rnd(8), wild4Count: rnd(8), wild2Count: rnd(4), copycatCount: rnd(3), bombCount: rnd(2), shuffleCount: rnd(2), gabsCount: lobby.value?.guris ? 1 : 0 };
+    const size = colors.reduce((s, c) => s + c.numbers.reduce((a, n) => a + n.copies, 0) + COLORED_SPECIALS.reduce((a, k) => a + c[k.key], 0), 0) + deckCfg.wildCount + deckCfg.wild4Count + deckCfg.wild2Count + deckCfg.copycatCount + deckCfg.bombCount + deckCfg.shuffleCount + deckCfg.gabsCount;
     if (size < Math.max(40, (lobby.value?.players.length ?? 2) * o.handSize + 10)) continue;
     o.deck = deckCfg;
     emitOptions();
@@ -71,7 +71,7 @@ const randomDeck = () => {
 const deck = computed(() => lobby.value?.options.deck);
 const deckSize = computed(() => {
   const d = deck.value; if (!d) return 0;
-  return d.colors.reduce((sum, c) => sum + c.numbers.reduce((s, n) => s + n.copies, 0) + COLORED_SPECIALS.reduce((a, k) => a + c[k.key], 0), 0) + d.wildCount + d.wild4Count + d.wild2Count + d.copycatCount + d.bombCount + d.shuffleCount;
+  return d.colors.reduce((sum, c) => sum + c.numbers.reduce((s, n) => s + n.copies, 0) + COLORED_SPECIALS.reduce((a, k) => a + c[k.key], 0), 0) + d.wildCount + d.wild4Count + d.wild2Count + d.copycatCount + d.bombCount + d.shuffleCount + d.gabsCount;
 });
 const colorSpecialsSummary = (color: DeckColor) => COLORED_SPECIALS.filter(s => color[s.key] > 0).map(s => `${t(s.label)} ${color[s.key]}`).join(' · ');
 const deckTooSmall = computed(() => !!lobby.value && deckSize.value < lobby.value.players.length * lobby.value.options.handSize + 1);
@@ -104,11 +104,13 @@ const setColorSpecial = (color: DeckColor, key: (typeof COLORED_SPECIALS)[number
   input.value = String(color[key]);
   emitOptions();
 };
-const WILD_FIELDS: { key: 'wildCount' | 'wild4Count' | 'wild2Count' | 'copycatCount' | 'bombCount' | 'shuffleCount'; kind: Card['kind']; label: string }[] = [
+const WILD_FIELDS: { key: 'wildCount' | 'wild4Count' | 'wild2Count' | 'copycatCount' | 'bombCount' | 'shuffleCount' | 'gabsCount'; kind: Card['kind']; label: string }[] = [
   { key: 'wildCount', kind: 'wild', label: 'LOBBY.WILD' }, { key: 'wild4Count', kind: 'wild4', label: 'LOBBY.WILD4' },
   { key: 'wild2Count', kind: 'wild2', label: 'LOBBY.WILD2' }, { key: 'copycatCount', kind: 'copycat', label: 'LOBBY.COPYCAT' },
   { key: 'bombCount', kind: 'bomb', label: 'LOBBY.BOMB' }, { key: 'shuffleCount', kind: 'shuffle', label: 'LOBBY.SHUFFLE' }
 ];
+/** The Gabs card only exists in guris games. */
+const wildFields = computed(() => (lobby.value?.guris ? [...WILD_FIELDS, { key: 'gabsCount', kind: 'gabs', label: 'LOBBY.GABS' } as (typeof WILD_FIELDS)[number]] : WILD_FIELDS));
 const setWild = (key: (typeof WILD_FIELDS)[number]['key'], e: Event) => {
   const input = e.target as HTMLInputElement;
   const d = deck.value; if (!d) return;
@@ -153,6 +155,7 @@ const btn = 'rounded-full px-5 py-2.5 font-display font-bold focus:outline-none 
       </ul>
 
       <div class="mt-6 flex flex-wrap items-center gap-3">
+        <span v-if="lobby.guris" class="rounded-full bg-amber-400 px-3 py-1 text-sm font-black text-emerald-950">{{ t('LOBBY.GURIS') }}</span>
         <span class="rounded-full bg-black/25 px-3 py-1 text-sm font-semibold">{{ t('LOBBY.TARGET') }} {{ lobby.options.targetScore }} · {{ t('LOBBY.TURN_TIME') }}: {{ lobby.options.turnTimeSeconds === 0 ? t('LOBBY.NO_LIMIT') : `${lobby.options.turnTimeSeconds}s` }} · {{ t('LOBBY.DECK_SIZE', { n: deckSize }) }}</span>
         <span v-if="deck" class="flex items-center gap-1">
           <span v-for="color in deck.colors" :key="color.id" class="h-4 w-4 rounded" :style="{ background: color.hex }" :title="color.name" />
@@ -249,7 +252,7 @@ const btn = 'rounded-full px-5 py-2.5 font-display font-bold focus:outline-none 
 
             <h4 class="mt-5 font-display font-bold">{{ t('LOBBY.WILD_CARDS') }}</h4>
             <div class="mt-3 flex flex-wrap gap-3">
-              <div v-for="w in WILD_FIELDS" :key="w.key" class="flex w-[4.5rem] flex-col items-center gap-1.5">
+              <div v-for="w in wildFields" :key="w.key" class="flex w-[4.5rem] flex-col items-center gap-1.5">
                 <PlayingCard :card="specialPreview(w.kind)" :suit-hexes="firstSuitHexes()" small />
                 <span class="text-center text-xs font-semibold">{{ t(w.label) }}</span>
                 <label class="sr-only" :for="`special-${w.key}`">{{ t('LOBBY.CARD_COUNT') }}</label>
@@ -264,7 +267,7 @@ const btn = 'rounded-full px-5 py-2.5 font-display font-bold focus:outline-none 
               <span class="font-semibold">{{ color.name }}</span>
               <span class="text-emerald-100/75">{{ color.numbers.map(n => `${n.value}×${n.copies}`).join(' ') || '—' }}<span v-if="colorSpecialsSummary(color)"> · {{ colorSpecialsSummary(color) }}</span></span>
             </li>
-            <li class="text-sm text-emerald-100/75">{{ t('LOBBY.WILD_CARDS') }}: {{ WILD_FIELDS.filter(w => (deck?.[w.key] ?? 0) > 0).map(w => `${t(w.label)} ${deck?.[w.key] ?? 0}`).join(' · ') || '—' }}</li>
+            <li class="text-sm text-emerald-100/75">{{ t('LOBBY.WILD_CARDS') }}: {{ wildFields.filter(w => (deck?.[w.key] ?? 0) > 0).map(w => `${t(w.label)} ${deck?.[w.key] ?? 0}`).join(' · ') || '—' }}</li>
           </ul>
         </section>
       </template>

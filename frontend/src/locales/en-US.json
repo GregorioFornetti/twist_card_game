@@ -3,7 +3,7 @@
   "HOME": {
     "CREATE_GAME": "Create game", "JOIN_GAME": "Join game", "HOW_TO_PLAY": "How to play",
     "CREATE_ROOM": "Create room", "JOIN_ROOM": "Join room", "PLAYER_NAME": "Your name", "ROOM_CODE": "Room code",
-    "CREATE": "Create", "JOIN": "Join", "CLOSE": "Close", "BACK": "Back", "INVITED": "You were invited to a room — enter your name to join.",
+    "CREATE": "Create", "JOIN": "Join", "CLOSE": "Close", "BACK": "Back", "INVITED": "You were invited to a room — enter your name to join.", "GURIS_HINT": "Guris mode: this room's deck carries the special Gabs card.",
     "ERRORS": { "LOBBY_IN_GAME": "That room is already in a game.", "INEXISTENT_LOBBY": "Room not found. Check the code.", "NO_NAME": "Enter a name.", "REPEATED_NAME": "That name is already used in the room.", "PLAYER_ALREADY_IN_LOBBY": "You are already in a room.", "LOBBY_FULL": "That room is full.", "INTERNAL": "Something went wrong. Try again." }
   },
   "HOWTO": {
@@ -19,7 +19,7 @@
     "DECK": "Deck", "DECK_SIZE": "{n} cards", "ADD_COLOR": "Add colour", "REMOVE_COLOR": "Remove",
     "COLOR_NAME": "Colour name", "NUMBERS_HINT": "Set how many copies of each card are in the deck (1-99).", "CARD_COUNT": "How many", "ADD_CARD": "Add", "REMOVE_CARD": "Remove card",
     "SPECIALS": "Special cards", "WILD_CARDS": "Wild cards", "SKIP": "Skip", "REVERSE": "Reverse", "DRAW2": "Draw Two", "WILD": "Wild", "WILD4": "Wild Draw Four",
-    "DRAW1": "Draw One", "SKIPALL": "Skip All", "REVERSEDRAW": "Reverse Draw", "WILD2": "Wild Draw Two", "SWAPCARD": "Swap Card", "PEEK": "Peek", "GIFT": "Gift", "SHIELD": "Shield", "DISCARDCOLOR": "Discard Colour", "LOCK": "Colour Lock", "COPYCAT": "Copycat", "BOMB": "Bomb", "SHUFFLE": "Shuffle Hands",
+    "DRAW1": "Draw One", "SKIPALL": "Skip All", "REVERSEDRAW": "Reverse Draw", "WILD2": "Wild Draw Two", "SWAPCARD": "Swap Card", "PEEK": "Peek", "GIFT": "Gift", "SHIELD": "Shield", "DISCARDCOLOR": "Discard Colour", "LOCK": "Colour Lock", "COPYCAT": "Copycat", "BOMB": "Bomb", "SHUFFLE": "Shuffle Hands", "GABS": "Gabs", "GURIS": "Guris",
     "DECK_TOO_SMALL_HINT": "Deck is too small for this many players — add more cards.", "RANDOM_DECK": "Random deck",
     "RESET_DEFAULTS": "Reset to defaults", "RESET_WARNING": "Reset target score, turn time, house rules and the whole deck to the defaults? Your custom settings will be lost.", "RESET_CONFIRM": "Reset",
     "HOUSE_RULES": "House rules", "STACK_PENALTY": "Stack Draw Two / Wild Draw Four", "DRAW_UNTIL": "Draw until you find a playable card", "SWAP_SEVEN": "Playing a 7 can swap hands",

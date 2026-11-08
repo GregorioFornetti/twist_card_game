@@ -12,7 +12,7 @@ export function defaultDeckConfig(): DeckConfig {
       id, name: CLASSIC_NAME[id], hex: CLASSIC_HEX[id], numbers: classicNumbers(),
       skip: 2, reverse: 2, draw2: 2, draw1: 0, skipall: 0, reversedraw: 0, swapcard: 0, peek: 0, gift: 0, shield: 0, discardcolor: 0, lock: 0
     })),
-    wildCount: 4, wild4Count: 4, wild2Count: 0, copycatCount: 0, bombCount: 0, shuffleCount: 0
+    wildCount: 4, wild4Count: 4, wild2Count: 0, copycatCount: 0, bombCount: 0, shuffleCount: 0, gabsCount: 0
   };
 }
 
@@ -34,12 +34,13 @@ export function createDeck(config?: DeckConfig): Card[] {
   for (let i = 0; i < cfg.copycatCount; i++) deck.push(mk('wild', 'copycat'));
   for (let i = 0; i < cfg.bombCount; i++) deck.push(mk('wild', 'bomb'));
   for (let i = 0; i < cfg.shuffleCount; i++) deck.push(mk('wild', 'shuffle'));
+  for (let i = 0; i < cfg.gabsCount; i++) deck.push(mk('wild', 'gabs'));
   return deck;
 }
 
 export function deckSize(config: DeckConfig): number {
   return config.colors.reduce((sum, c) => sum + c.numbers.reduce((s, n) => s + n.copies, 0) + COLORED_SPECIALS.reduce((a, k) => a + c[k], 0), 0)
-    + config.wildCount + config.wild4Count + config.wild2Count + config.copycatCount + config.bombCount + config.shuffleCount;
+    + config.wildCount + config.wild4Count + config.wild2Count + config.copycatCount + config.bombCount + config.shuffleCount + config.gabsCount;
 }
 
 const HEX_RE = /^#[0-9a-fA-F]{6}$/;
@@ -78,8 +79,9 @@ export function validateDeckConfig(input: any): DeckConfig | null {
   const copycatCount = count(input.copycatCount, 99);
   const bombCount = count(input.bombCount, 99);
   const shuffleCount = count(input.shuffleCount, 99);
-  if ([wildCount, wild4Count, wild2Count, copycatCount, bombCount, shuffleCount].some(v => v === null)) return null;
-  const cfg: DeckConfig = { colors, wildCount: wildCount!, wild4Count: wild4Count!, wild2Count: wild2Count!, copycatCount: copycatCount!, bombCount: bombCount!, shuffleCount: shuffleCount! };
+  const gabsCount = count(input.gabsCount, 99);
+  if ([wildCount, wild4Count, wild2Count, copycatCount, bombCount, shuffleCount, gabsCount].some(v => v === null)) return null;
+  const cfg: DeckConfig = { colors, wildCount: wildCount!, wild4Count: wild4Count!, wild2Count: wild2Count!, copycatCount: copycatCount!, bombCount: bombCount!, shuffleCount: shuffleCount!, gabsCount: gabsCount! };
   const size = deckSize(cfg);
   if (size < 30 || size > 5000) return null;
   if (cfg.colors.some(c => c.numbers.length === 0 && COLORED_SPECIALS.reduce((a, k) => a + c[k], 0) === 0)) return null;
@@ -104,6 +106,6 @@ export function cardLabel(card: Card): string {
   return {
     skip: 'Skip', reverse: 'Reverse', draw2: '+2', wild: 'Wild', wild4: 'Wild +4',
     draw1: '+1', skipall: 'Skip All', reversedraw: 'Reverse +1', wild2: 'Wild +2', swapcard: 'Swap Card',
-    peek: 'Peek', gift: 'Gift', shield: 'Shield', discardcolor: 'Discard Colour', copycat: 'Copycat', bomb: 'Bomb', shuffle: 'Shuffle Hands', lock: 'Colour Lock'
+    peek: 'Peek', gift: 'Gift', shield: 'Shield', discardcolor: 'Discard Colour', copycat: 'Copycat', bomb: 'Bomb', shuffle: 'Shuffle Hands', lock: 'Colour Lock', gabs: 'Gabs'
   }[card.kind];
 }

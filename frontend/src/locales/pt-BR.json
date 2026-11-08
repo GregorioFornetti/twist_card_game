@@ -3,7 +3,7 @@
   "HOME": {
     "CREATE_GAME": "Criar jogo", "JOIN_GAME": "Entrar em um jogo", "HOW_TO_PLAY": "Como jogar",
     "CREATE_ROOM": "Criar sala", "JOIN_ROOM": "Entrar na sala", "PLAYER_NAME": "Seu nome", "ROOM_CODE": "Código da sala",
-    "CREATE": "Criar", "JOIN": "Entrar", "CLOSE": "Fechar", "BACK": "Voltar", "INVITED": "Você foi convidado para uma sala — digite seu nome para entrar.",
+    "CREATE": "Criar", "JOIN": "Entrar", "CLOSE": "Fechar", "BACK": "Voltar", "INVITED": "Você foi convidado para uma sala — digite seu nome para entrar.", "GURIS_HINT": "Modo Guris: o baralho desta sala tem a carta especial Gabs.",
     "ERRORS": { "LOBBY_IN_GAME": "Essa sala já está em um jogo.", "INEXISTENT_LOBBY": "Sala não encontrada. Confira o código.", "NO_NAME": "Digite um nome.", "REPEATED_NAME": "Esse nome já está sendo usado na sala.", "PLAYER_ALREADY_IN_LOBBY": "Você já está em uma sala.", "LOBBY_FULL": "Essa sala está cheia.", "INTERNAL": "Algo deu errado. Tente novamente." }
   },
   "HOWTO": {
@@ -19,7 +19,7 @@
     "DECK": "Baralho", "DECK_SIZE": "{n} cartas", "ADD_COLOR": "Adicionar cor", "REMOVE_COLOR": "Remover",
     "COLOR_NAME": "Nome da cor", "NUMBERS_HINT": "Defina quantas cópias de cada carta há no baralho (1-99).", "CARD_COUNT": "Quantas", "ADD_CARD": "Adicionar", "REMOVE_CARD": "Remover carta",
     "SPECIALS": "Cartas especiais", "WILD_CARDS": "Cartas Curinga", "SKIP": "Pular", "REVERSE": "Inverter", "DRAW2": "Comprar Duas", "WILD": "Curinga", "WILD4": "Curinga Comprar Quatro",
-    "DRAW1": "Comprar Uma", "SKIPALL": "Pular Todos", "REVERSEDRAW": "Inverter e Comprar", "WILD2": "Curinga Comprar Duas", "SWAPCARD": "Trocar Carta", "PEEK": "Espiar", "GIFT": "Presentear", "SHIELD": "Escudo", "DISCARDCOLOR": "Descartar Cor", "LOCK": "Travar Cor", "COPYCAT": "Imitador", "BOMB": "Bomba", "SHUFFLE": "Embaralhar Mãos",
+    "DRAW1": "Comprar Uma", "SKIPALL": "Pular Todos", "REVERSEDRAW": "Inverter e Comprar", "WILD2": "Curinga Comprar Duas", "SWAPCARD": "Trocar Carta", "PEEK": "Espiar", "GIFT": "Presentear", "SHIELD": "Escudo", "DISCARDCOLOR": "Descartar Cor", "LOCK": "Travar Cor", "COPYCAT": "Imitador", "BOMB": "Bomba", "SHUFFLE": "Embaralhar Mãos", "GABS": "Gabs", "GURIS": "Guris",
     "DECK_TOO_SMALL_HINT": "O baralho é pequeno demais para tantos jogadores — adicione mais cartas.", "RANDOM_DECK": "Baralho aleatório",
     "RESET_DEFAULTS": "Restaurar padrões", "RESET_WARNING": "Restaurar pontuação alvo, tempo por turno, regras da casa e todo o baralho para os padrões? Suas configurações personalizadas serão perdidas.", "RESET_CONFIRM": "Restaurar",
     "HOUSE_RULES": "Regras da casa", "STACK_PENALTY": "Empilhar Comprar Duas / Curinga Comprar Quatro", "DRAW_UNTIL": "Comprar até achar uma carta jogável", "SWAP_SEVEN": "Jogar um 7 pode trocar as mãos",

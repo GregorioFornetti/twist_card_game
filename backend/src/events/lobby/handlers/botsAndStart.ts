@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import Player from '../../../interfaces/Player';
-import { DEFAULT_GAME_OPTIONS, MAX_LOBBY_PLAYERS, MIN_LOBBY_PLAYERS, TURN_TIME_SECONDS_OPTIONS } from '../../../global';
+import { MAX_LOBBY_PLAYERS, MIN_LOBBY_PLAYERS, TURN_TIME_SECONDS_OPTIONS, defaultGameOptions } from '../../../global';
 import { assignFreeAppearance } from '../functions/appearance';
-import { createDeck, defaultDeckConfig, validateDeckConfig } from '../../../functions/deck';
+import { createDeck, validateDeckConfig } from '../../../functions/deck';
 import { startGame } from '../../game/functions/engine';
 import { afterChange, emitAll } from '../../game/functions/broadcast';
 
@@ -68,7 +68,7 @@ export function handleResetOptions(player: Player) {
   const me = player.lobby.players.find(p => p.id === player.playerId);
   if (!me?.leader) { player.eventsEmitter.Lobby.emitOptionsError('not-leader'); return; }
   if (player.lobby.game) { player.eventsEmitter.Lobby.emitOptionsError('already-in-game'); return; }
-  player.lobby.options = { ...DEFAULT_GAME_OPTIONS, deck: defaultDeckConfig() };
+  player.lobby.options = defaultGameOptions(!!player.lobby.guris);
   player.eventsEmitter.Lobby.emitOptionsUpdate(player.lobby.options);
 }
 export function handleUpdateOptions(player: Player, options: { targetScore?: number; turnTimeSeconds?: number; deck?: unknown; stackPenalty?: boolean; drawUntilPlayable?: boolean; swapOnSeven?: boolean }) {
@@ -89,7 +89,7 @@ export function handleUpdateOptions(player: Player, options: { targetScore?: num
   if (hasDeck && !deck) { player.eventsEmitter.Lobby.emitOptionsError('invalid-options'); return; }
   if (hasTarget) player.lobby.options.targetScore = Number(options.targetScore);
   if (hasTurnTime) player.lobby.options.turnTimeSeconds = Number(options.turnTimeSeconds);
-  if (deck) player.lobby.options.deck = deck;
+  if (deck) { if (!player.lobby.guris) deck.gabsCount = 0; player.lobby.options.deck = deck; }
   for (const k of ruleKeys) if (options?.[k] !== undefined) player.lobby.options[k] = options[k] as boolean;
   player.eventsEmitter.Lobby.emitOptionsUpdate(player.lobby.options);
 }

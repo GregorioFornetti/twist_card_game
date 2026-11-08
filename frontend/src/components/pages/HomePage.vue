@@ -9,6 +9,8 @@ const { t } = useI18n();
 const mode = ref<'closed' | 'create' | 'join' | 'howto' | 'loading' | 'error'>('closed');
 const createName = ref(''); const joinCode = ref(''); const joinName = ref('');
 const fromInvite = ref(false);
+const gurisMode = typeof window !== 'undefined' && window.location.pathname.includes('/guris');
+if (gurisMode && typeof window !== 'undefined' && !inviteCodeFromUrl(window.location.href)) window.history.replaceState(null, '', import.meta.env.BASE_URL || '/');
 const inviteCode = typeof window !== 'undefined' ? inviteCodeFromUrl(window.location.href) : '';
 if (inviteCode) {
   joinCode.value = inviteCode;
@@ -21,7 +23,7 @@ const errorKey = computed(() => ({ 'lobby-in-game': 'HOME.ERRORS.LOBBY_IN_GAME',
 eventsListenersAdder.lobby.joinLobbySuccess(() => { mode.value = 'closed'; });
 eventsListenersAdder.lobby.joinLobbyError((type: string) => { errorType.value = type; if (mode.value === 'loading') mode.value = 'error'; });
 socket.on('internal-server-error', () => { errorType.value = 'internal'; if (mode.value === 'loading') mode.value = 'error'; });
-const createLobby = () => { eventsEmitter.lobby.emitCreateLobby(createName.value); mode.value = 'loading'; };
+const createLobby = () => { eventsEmitter.lobby.emitCreateLobby(createName.value, gurisMode); mode.value = 'loading'; };
 const joinLobby = () => { eventsEmitter.lobby.emitJoinLoby(joinCode.value, joinName.value); mode.value = 'loading'; };
 const btn = 'rounded-full px-5 py-2.5 font-display font-bold focus:outline-none focus:ring-4';
 </script>
@@ -40,6 +42,7 @@ const btn = 'rounded-full px-5 py-2.5 font-display font-bold focus:outline-none 
         </div>
         <h1 class="text-center font-display text-4xl font-black">Twist</h1>
         <p class="mt-2 text-center text-emerald-100/85">Match colour, number or symbol. Empty your hand, score the rest, race to the target.</p>
+        <p v-if="gurisMode" class="mt-3 rounded-full bg-amber-400 px-4 py-1.5 text-sm font-black text-emerald-950">{{ t('HOME.GURIS_HINT') }}</p>
         <nav class="mt-8 flex w-full flex-col gap-3">
           <button type="button" :class="[btn, 'w-full bg-amber-400 text-emerald-950 hover:bg-amber-300 focus:ring-amber-200/60']" @click="mode = 'create'">{{ t('HOME.CREATE_GAME') }}</button>
           <button type="button" :class="[btn, 'w-full bg-white text-emerald-900 hover:bg-emerald-50 focus:ring-white/40']" @click="mode = 'join'">{{ t('HOME.JOIN_GAME') }}</button>

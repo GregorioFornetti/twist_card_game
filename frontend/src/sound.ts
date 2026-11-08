@@ -25,6 +25,25 @@ function tone(freq: number, at: number, dur: number, type: OscillatorType = 'sin
   osc.connect(g).connect(ac.destination);
   osc.start(t0); osc.stop(t0 + dur + 0.05);
 }
+function speakPt(text: string) {
+  try {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'pt-BR';
+    window.speechSynthesis?.speak(u);
+  } catch { /* speech unavailable */ }
+}
+/** One-shot voice cues broadcast for everyone (easter eggs), with a speech fallback. */
+export function playVoiceCue(name: 'gabs' | 'salvei') {
+  if (!enabled) return;
+  const file = name === 'gabs' ? 'nao_pode_ser_verde.wav' : 'salvei.wav';
+  const text = name === 'gabs' ? 'Não pode ser verde!' : 'Salvei!';
+  try {
+    const a = new Audio(`${import.meta.env.BASE_URL || '/'}sounds/${file}`);
+    a.onerror = () => speakPt(text);
+    const p = a.play();
+    if (p) p.catch(() => speakPt(text));
+  } catch { speakPt(text); }
+}
 export const sfx = {
   play() { tone(420, 0, 0.09, 'triangle', 0.14); tone(660, 0.05, 0.08, 'triangle', 0.08); },
   draw() { tone(240, 0, 0.08, 'sine', 0.1); },

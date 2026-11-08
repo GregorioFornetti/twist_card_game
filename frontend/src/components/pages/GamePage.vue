@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { eventsEmitter, eventsListenersAdder, lobby, playerId } from '@/connection';
-import { sfx, setSoundEnabled, soundEnabled } from '@/sound';
+import { playVoiceCue, sfx, setSoundEnabled, soundEnabled } from '@/sound';
 import BaseModal from '../modal/BaseModal.vue';
 import PlayingCard from '../PlayingCard.vue';
 import PlayerAvatar from '../PlayerAvatar.vue';
@@ -49,7 +49,7 @@ const onCard = (card: Card) => {
   const g = game.value!;
   if (g.status === 'swapcard') { eventsEmitter.game.emitSwapCardGive(card.id); return; }
   if (g.status === 'gift') { eventsEmitter.game.emitGiftGive(card.id); return; }
-  if (WILD_KINDS.includes(card.kind)) { pendingWild.value = card; return; }
+  if (card.kind !== 'gabs' && WILD_KINDS.includes(card.kind)) { pendingWild.value = card; return; }
   eventsEmitter.game.emitPlayCard(card.id, undefined);
 };
 const chooseColor = (color: CardColor) => {
@@ -80,12 +80,19 @@ watch(isMyTurn, (mine, was) => { if (mine && !was) sfx.turn(); });
 watch(() => game.value?.status, (s) => {
   if ((s === 'hand-over' && game.value?.handWinnerId === playerId) || (s === 'game-over' && game.value?.winnerId === playerId)) sfx.win();
 });
+let lastCueSeq = game.value?.soundCue?.seq ?? 0;
+watch(() => game.value?.soundCue, (cue) => {
+  if (!cue || cue.seq <= lastCueSeq) return;
+  lastCueSeq = cue.seq;
+  playVoiceCue(cue.name);
+});
 const confirmExit = () => { showExit.value = false; eventsEmitter.general.emitLogout(); };
 </script>
 <template>
   <div v-if="lobby && game" class="card-table flex min-h-screen w-full flex-col text-white">
     <header class="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-3 px-4 py-4 sm:px-6">
       <span class="font-display text-2xl font-black">Twist</span>
+      <span v-if="lobby.guris" class="rounded-full bg-amber-400 px-3 py-1 text-sm font-black text-emerald-950">{{ t('LOBBY.GURIS') }}</span>
       <span class="rounded-full bg-black/25 px-3 py-1 text-sm font-semibold">{{ t('GAME.HAND', { n: game.handNumber }) }} · {{ t('LOBBY.TARGET') }} {{ game.targetScore }}</span>
       <span class="rounded-full px-3 py-1 text-sm font-bold text-white" :style="{ background: suitHex(game.currentColor) }">{{ t('GAME.CURRENT_COLOR') }}: {{ suitName(game.currentColor) }}</span>
       <span class="rounded-full bg-black/25 px-3 py-1 text-sm font-semibold">{{ t('GAME.TURN_TIMER') }}: {{ game.turnTimeSeconds === 0 ? t('LOBBY.NO_LIMIT') : `${game.turnTimeSeconds}s` }}</span>

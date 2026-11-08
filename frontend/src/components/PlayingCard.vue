@@ -12,7 +12,7 @@ const label = computed(() => {
   return {
     skip: '⊘', reverse: '⇄', draw2: '+2', wild: 'Wild', wild4: '+4',
     draw1: '+1', skipall: 'All', reversedraw: '⇄+1', wild2: '+2', swapcard: 'Swap',
-    peek: 'Peek', gift: 'Gift', shield: 'Shield', discardcolor: 'Drop', copycat: 'Copy', bomb: 'Bomb', shuffle: 'Mix', lock: 'Lock'
+    peek: 'Peek', gift: 'Gift', shield: 'Shield', discardcolor: 'Drop', copycat: 'Copy', bomb: 'Bomb', shuffle: 'Mix', lock: 'Lock', gabs: 'Gabs'
   }[props.card.kind];
 });
 const sub = computed(() => props.card.kind === 'wild' ? 'WILD' : props.card.kind === 'wild4' ? 'WILD' : props.card.kind);

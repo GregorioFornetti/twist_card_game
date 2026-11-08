@@ -1,9 +1,9 @@
 /** A suit colour id: 'red' | 'yellow' | 'green' | 'blue' by default, or a custom id from the deck config. */
 export type CardColor = string;
 export type CardKind = 'number' | 'skip' | 'reverse' | 'draw2' | 'wild' | 'wild4'
-  | 'draw1' | 'skipall' | 'reversedraw' | 'wild2' | 'swapcard' | 'peek' | 'gift' | 'shield' | 'discardcolor' | 'copycat' | 'bomb' | 'shuffle' | 'lock';
+  | 'draw1' | 'skipall' | 'reversedraw' | 'wild2' | 'swapcard' | 'peek' | 'gift' | 'shield' | 'discardcolor' | 'copycat' | 'bomb' | 'shuffle' | 'lock' | 'gabs';
 /** Colourless kinds that are always playable like a Wild. */
-export const WILD_KINDS: CardKind[] = ['wild', 'wild4', 'wild2', 'copycat', 'bomb', 'shuffle'];
+export const WILD_KINDS: CardKind[] = ['wild', 'wild4', 'wild2', 'copycat', 'bomb', 'shuffle', 'gabs'];
 
 export interface DeckNumber { value: number; copies: number }
 export interface DeckColor {
@@ -16,6 +16,8 @@ export interface DeckConfig {
   colors: DeckColor[];
   wildCount: number; wild4Count: number;
   wild2Count: number; copycatCount: number; bombCount: number; shuffleCount: number;
+  /** Guris-mode card; 0 in normal games, 1 in the guris default deck. */
+  gabsCount: number;
 }
 
 export interface Card {
@@ -71,6 +73,9 @@ export interface Game {
   handWinnerId?: string;
   handPoints?: number;
   winnerId?: string;
+  /** Latest one-shot audio cue broadcast to every client (easter eggs). */
+  soundCue?: { name: 'gabs' | 'salvei'; seq: number };
+  cueSeq: number;
   log: string[];
   /** Epoch ms when the current player must act by (turn timer). */
   turnEndsAt?: number;
@@ -109,6 +114,8 @@ interface Lobby {
   game?: Game;
   gameRanking?: string[];
   options: GameOptions;
+  /** Special mode entered via /guris: the deck carries the Gabs card. */
+  guris?: boolean;
 }
 export default Lobby;
 
@@ -135,6 +142,7 @@ export interface ClientGame {
   revealedHands: { [playerId: string]: Card[] };
   lockedColor?: CardColor;
   lockedBy?: string;
+  soundCue?: { name: 'gabs' | 'salvei'; seq: number };
   lastAction: string;
   handWinnerId?: string;
   handPoints?: number;
@@ -154,4 +162,5 @@ export interface ClientLobby {
   options: GameOptions;
   game?: ClientGame;
   gameRanking?: string[];
+  guris?: boolean;
 }
